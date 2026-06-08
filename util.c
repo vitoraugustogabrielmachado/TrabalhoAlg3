@@ -1,4 +1,5 @@
 #include "util.h"
+#include <stdlib.h>
 
 
 float area_triangulo(float x1, float y1, float x2, float y2, float x3, float y3) {
@@ -15,4 +16,9 @@ float altura2_triangulo(float x1, float y1, float x2, float y2, float x3, float 
     dx = x3 - x1;
     dy = y3 - y1;    
     return 4 * (area * area) / (dx * dx + dy * dy);
+}
+
+double *inicializaVetor(int numero){
+    double *temp = calloc(numero + 1, sizeof(double));
+    return(temp);
 }
