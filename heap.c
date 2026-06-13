@@ -1,55 +1,55 @@
-#include "heap.h"
-#include <string.h>
 #include <stdlib.h>
+#include "heap.h"
 
-void insereHeap(int n, double vetor[]){
-    double aux;
+void heap_insere(ponto heap[], int ts[], int n){
     int i = n + 1;
-    while(i > 1 && vetor[i/2] < vetor[i]){
-        aux = vetor[i/2];
-        vetor[i/2] = vetor[i];
-        vetor[i] = aux;
+    while (i > 1 && heap[i/2].prio > heap[i].prio){
+        troca(heap, ts, i/2, i);
         i /= 2;
     }
 }
 
-void heapfy(int n, double vetor[]){ 
-    for(int i = 1; i <= n; i++){
-        insereHeap(i, vetor);
-	}
+void heapfy(ponto heap[], int ts[], int n){ 
+    for (int i = n/2; i >=1; i--)
+        sacodeHeap(heap, ts, i, n);
 }
 
-int checaHeap(int tamanhoHeap, double vetorHeap[]){
-    for(int i = tamanhoHeap; i > 1; i--)
-        if(vetorHeap[i] > vetorHeap[i/2])
+int heap_checa(ponto heap[], int tam){
+    for (int i = tam; i > 1; i--)
+        if (heap[i].prio < heap[i/2].prio)
             return(0);
+
     return(1);
 }
 
-void sacodeHeap(int tamanhoHeap, double vetorHeap[]){
-    double aux = 0.0;
-    int i = 2;
-    while(i <= tamanhoHeap){
-        if(i < tamanhoHeap && vetorHeap[i] < vetorHeap[i + 1])
+void troca(ponto heap[], int ts[], int i, int j){
+	ponto aux = heap[i];
+	heap[i] = heap[j];
+	heap[j] = aux;
+
+    ts[heap[i].index] = i;
+    ts[heap[j].index] = j;
+}
+
+void sacodeHeap(ponto heap[], int ts[], int pos, int tam){
+    int i = 2*pos;
+    while (i <= tam){
+        if (i < tam && heap[i].prio > heap[i + 1].prio)
             i++;
-        if(vetorHeap[i/2] >= vetorHeap[i])
+
+        if (heap[i/2].prio <= heap[i].prio)
             break;
-        aux = vetorHeap[i/2];
-        vetorHeap[i/2] = vetorHeap[i];
-        vetorHeap[i] = aux;
+
+        troca(heap, ts, i/2, i);
+            
         i *= 2;
     }
 }
 
-void troca(int j, double vetorHeap[]){
-	double aux = vetorHeap[1];
-	vetorHeap[1] = vetorHeap[j];
-	vetorHeap[j] = aux;
-}
 
-void removeHeap(int *tamanhoHeap, double vetorHeap[]){
-	troca((*tamanhoHeap), vetorHeap); 
-	sacodeHeap((*tamanhoHeap) - 1, vetorHeap);
-    (*tamanhoHeap)--;
+void heap_remove(ponto heap[], int ts[], int *tam){
+	troca(heap, ts, 1, (*tam)); 
+	sacodeHeap(heap, ts, 1, (*tam) - 1);
+    (*tam)--;
 }
 

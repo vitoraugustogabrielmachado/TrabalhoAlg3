@@ -1,11 +1,21 @@
 #ifndef HEAP
 #define HEAP
 
-void insereHeap(int n, double vetor[]); //talvez mudar e fazer com void e dentro dela fazer casting?
+typedef struct {
+    double prio;
+    int index; // indice do ponto no vetor de pontos (coordenada x)
+    int viz_esq;
+    int viz_dir;
+} ponto;
 
-void heapfy(int n, double vetor[]); //msm coisa q em cima
+void heap_insere(ponto heap[], int n); //talvez mudar e fazer com void e dentro dela fazer casting?
 
-int checaHeap(int tamanhoHeap, double vetorHeap[]);
-void removeHeap(int *tamanhoHeap, double vetorHeap[]);
+// Heapfy, atualizando a ts
+void heapfy(ponto heap[], int ts[], int tam); //msm coisa q em cima
+
+// Remove a raiz do heap, atualizando a ts
+void heap_remove(ponto heap[], int ts[], int *tam);
+
+int heap_checa(ponto heap[], int tamanhoHeap);
 
 #endif

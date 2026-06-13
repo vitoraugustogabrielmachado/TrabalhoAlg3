@@ -6,13 +6,6 @@
 #include "util.h"
 #define INF INT_MAX
 
-struct ponto{
-    double prio;
-    int index; // indice do ponto no vetor de pontos (coordenada x)
-    int viz_esq;
-    int viz_dir;
-};
-
 int main(int argc, char *argv[]){
     if((argv[1][1] != 'h' && argv[1][1] != 'a') || (argc != 3)){
         perror("ta errado ai amigao\n"); //quero q saia no terminal e nn q va para o arquivo de saida
@@ -25,7 +18,7 @@ int main(int argc, char *argv[]){
     scanf("%ld", &num); //numero de elementos
 
     float vet_pontos[num+1]; //o vetor com os pontos (comeca no indice 1 e vai ate num)
-    struct ponto heap[num+1]; //o heap (vetor de structs)
+    ponto heap[num+1]; //o heap (vetor de structs)
     int ts[num+1]; // a tabela de simbolos
 
     for(int i = 1; i <= num ; i++){
@@ -72,18 +65,17 @@ int main(int argc, char *argv[]){
     * LOOP DE REMOCAO DA CABECA DO HEAP
     * E EVENTUAIS ATUALIZACOES.
     */
+    heapfy(heap, ts, tamHeap);
     while (1){
-        heapfy(tamHeap, heap);
-        atualiza_ts(ts, num);
-        if (heap[1].prio < limite){
-            atualiza_campo_viz(heap, ts, num, 1); // atualiza o campo viz dos vizinhos do ponto heap[1]
-            atualiza_prio_viz(heap, ts, num, 1); // atualiza a prioridade dos vizinhos de ponto heap[1]
-            remove_heap(1); // remove a cabeca do heap
-            ts[heap[1].index] = -1 // atualiza ts para o ponto removido
-            tamHeap--; // atualiza para a impressao
-        }
-        else 
+        if (heap[1].prio >= limite)
             break;
+
+        atualiza_campo_viz(heap, ts, num, 1); // atualiza o campo viz dos vizinhos do ponto heap[1]
+        atualiza_prio_viz(heap, ts, num, 1); // atualiza a prioridade dos vizinhos de ponto heap[1]
+
+        int idx = heap[1].index;
+        heap_remove(heap, ts, &tamHeap); // remove a cabeca do heap
+        ts[idx] = -1; // atualiza ts para o ponto removido
     }
 
     /* IMPRIME A SAIDA */
