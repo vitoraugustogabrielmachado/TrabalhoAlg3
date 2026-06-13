@@ -14,15 +14,17 @@ struct ponto{
 };
 
 int main(int argc, char *argv[]){
-    if(argv[1][1] != 'h' && argv[1][1] != 'a'){
+    if((argv[1][1] != 'h' && argv[1][1] != 'a') || (argc != 3)){
         perror("ta errado ai amigao\n"); //quero q saia no terminal e nn q va para o arquivo de saida
         return(0);
     }
+    
+    float limite = argv[2]; // limite aceitavel para a prioridade
 
-    long int num;
+    int num;
     scanf("%ld", &num); //numero de elementos
 
-    double vet_pontos[num+1]; //o vetor com os pontos (comeca no indice 1 e vai ate num)
+    float vet_pontos[num+1]; //o vetor com os pontos (comeca no indice 1 e vai ate num)
     struct ponto heap[num+1]; //o heap (vetor de structs)
     int ts[num+1]; // a tabela de simbolos
 
@@ -45,7 +47,7 @@ int main(int argc, char *argv[]){
         ts[i] = i; // inicia ts
     }
 
-    double prioridade;
+    float prioridade;
     int tamHeap = 0;
 
     //para todas as funcoes: OS DOIS VETORES COMEÇAM EM 1 E NAO EM 0
@@ -87,6 +89,9 @@ int main(int argc, char *argv[]){
     /* IMPRIME A SAIDA */
     printf("%d\n", tamHeap);
     for(int i = 1; i <= tamHeap; i++){
+        // achei mais facil varrer a ts ao enves do heap
+        // porque assim da para imprimir os pontos na ordem 
+        // outro jeito seria varrer o heap, mas sairia fora de ordem
         if (ts[i] != -1){
             printf("%f.1 ", i);
             printf("%f.1\n", vet_pontos[i]);
