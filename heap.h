@@ -8,7 +8,7 @@ typedef struct {
     int viz_dir;
 } ponto;
 
-void heap_insere(ponto heap[], int n); //talvez mudar e fazer com void e dentro dela fazer casting?
+void heap_insere(ponto heap[], int ts[], int n); //talvez mudar e fazer com void e dentro dela fazer casting?
 
 // Heapfy, atualizando a ts
 void heapfy(ponto heap[], int ts[], int tam); //msm coisa q em cima

@@ -4,7 +4,35 @@
 #include "arvore.h"
 #include "heap.h"
 #include "util.h"
-#define INF INT_MAX
+#define INF __INT_MAX__
+
+void atualiza_campo_viz(ponto heap[], int ts[], int num){
+    int idx = ts[heap[1].viz_esq];
+    heap[idx].viz_dir = heap[1].viz_dir;
+    idx = ts[heap[1].viz_dir];
+    heap[idx].viz_esq = heap[1].viz_esq;
+}
+
+void atualiza_prio_viz(ponto heap[], int ts[], float vet_pontos[], int num, char *argv[]){
+    int idx = ts[heap[1].viz_esq];
+    int idx_esq = ts[heap[idx].viz_esq];
+    int idx_dir = ts[heap[idx].viz_dir];
+    if(heap[idx].viz_esq != -1 && heap[idx].viz_dir != -1) { 
+        if(argv[1][1] == 'h'){
+            heap[idx].prio = altura2_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+            idx = ts[heap[1].viz_dir];
+            idx_esq = ts[heap[idx].viz_esq];
+            idx_dir = ts[heap[idx].viz_dir];
+            heap[idx].prio = altura2_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+        }else{
+            heap[idx].prio = area_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+            idx = ts[heap[1].viz_dir];
+            idx_esq = ts[heap[idx].viz_esq];
+            idx_dir = ts[heap[idx].viz_dir];
+            heap[idx].prio = area_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+        }
+    }
+}
 
 int main(int argc, char *argv[]){
     if((argv[1][1] != 'h' && argv[1][1] != 'a') || (argc != 3)){
@@ -12,17 +40,16 @@ int main(int argc, char *argv[]){
         return(0);
     }
     
-    float limite = argv[2]; // limite aceitavel para a prioridade
-
+    float limite = atof(argv[2]); // limite aceitavel para a prioridade 
     int num;
-    scanf("%ld", &num); //numero de elementos
+    scanf("%d", &num); //numero de elementos
 
     float vet_pontos[num+1]; //o vetor com os pontos (comeca no indice 1 e vai ate num)
     ponto heap[num+1]; //o heap (vetor de structs)
     int ts[num+1]; // a tabela de simbolos
 
     for(int i = 1; i <= num ; i++){
-        scanf("%lf", &vet_pontos[i]); // leitura dos pontos
+        scanf("%f", &vet_pontos[i]); // leitura dos pontos
         heap[i].index = i; // inicia campo index do heap
         // inicia campo vizinhos do heap
         if (i == 1){
@@ -56,11 +83,11 @@ int main(int argc, char *argv[]){
             if(argv[1][1] == 'h') 
                 prioridade = altura2_triangulo(i-1, vet_pontos[i-1], i, vet_pontos[i], i+1, vet_pontos[i+1]);
             else    
-                prioridade = area_triangulo(i-1, vetor[i-1], i, vetor[i], i+1, vetor[i+1]);
+                prioridade = area_triangulo(i-1, vet_pontos[i-1], i, vet_pontos[i], i+1, vet_pontos[i+1]);
         }
         heap[tamHeap].prio = prioridade;
     }
-
+    
     /* 
     * LOOP DE REMOCAO DA CABECA DO HEAP
     * E EVENTUAIS ATUALIZACOES.
@@ -70,8 +97,8 @@ int main(int argc, char *argv[]){
         if (heap[1].prio >= limite)
             break;
 
-        atualiza_campo_viz(heap, ts, num, 1); // atualiza o campo viz dos vizinhos do ponto heap[1]
-        atualiza_prio_viz(heap, ts, num, 1); // atualiza a prioridade dos vizinhos de ponto heap[1]
+        atualiza_campo_viz(heap, ts, num); // atualiza o campo viz dos vizinhos do ponto heap[1]
+        atualiza_prio_viz(heap, ts, vet_pontos, num, argv); // atualiza a prioridade dos vizinhos de ponto heap[1]
 
         int idx = heap[1].index;
         heap_remove(heap, ts, &tamHeap); // remove a cabeca do heap
@@ -79,14 +106,15 @@ int main(int argc, char *argv[]){
     }
 
     /* IMPRIME A SAIDA */
-    printf("%d\n", tamHeap);
-    for(int i = 1; i <= tamHeap; i++){
-        // achei mais facil varrer a ts ao enves do heap
+    
+    for(int i = 1; i <= num; i++){
+        // achei mais facil varrer a ts ao inves do heap
         // porque assim da para imprimir os pontos na ordem 
         // outro jeito seria varrer o heap, mas sairia fora de ordem
+        
         if (ts[i] != -1){
-            printf("%f.1 ", i);
-            printf("%f.1\n", vet_pontos[i]);
+            printf("%d ", i);
+            printf("%.1f\n", vet_pontos[i]);
         }
     }
 }

@@ -1,27 +1,6 @@
 #include <stdlib.h>
 #include "heap.h"
 
-void heap_insere(ponto heap[], int ts[], int n){
-    int i = n + 1;
-    while (i > 1 && heap[i/2].prio > heap[i].prio){
-        troca(heap, ts, i/2, i);
-        i /= 2;
-    }
-}
-
-void heapfy(ponto heap[], int ts[], int n){ 
-    for (int i = n/2; i >=1; i--)
-        sacodeHeap(heap, ts, i, n);
-}
-
-int heap_checa(ponto heap[], int tam){
-    for (int i = tam; i > 1; i--)
-        if (heap[i].prio < heap[i/2].prio)
-            return(0);
-
-    return(1);
-}
-
 void troca(ponto heap[], int ts[], int i, int j){
 	ponto aux = heap[i];
 	heap[i] = heap[j];
@@ -53,3 +32,23 @@ void heap_remove(ponto heap[], int ts[], int *tam){
     (*tam)--;
 }
 
+void heap_insere(ponto heap[], int ts[], int n){
+    int i = n + 1;
+    while (i > 1 && heap[i/2].prio > heap[i].prio){
+        troca(heap, ts, i/2, i);
+        i /= 2;
+    }
+}
+
+void heapfy(ponto heap[], int ts[], int n){ 
+    for (int i = n/2; i >=1; i--)
+        sacodeHeap(heap, ts, i, n);
+}
+
+int heap_checa(ponto heap[], int tam){
+    for (int i = tam; i > 1; i--)
+        if (heap[i].prio < heap[i/2].prio)
+            return(0);
+
+    return(1);
+}
