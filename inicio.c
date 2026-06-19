@@ -56,7 +56,8 @@ if (viz_dir != -1 && ts[viz_dir] != -1){
 
 int main(int argc, char *argv[]){
     if (argc != 3 || (argv[1][1] != 'h' && argv[1][1] != 'a')){
-        fprintf(stderr, "ta errado ai amigao\n");
+        puts("Erro: parametro incorreto.");
+        puts("Forma de uso: ./inicio -a <valor> ou ./inicio -h <valor>");
         return 0;
     }
 
