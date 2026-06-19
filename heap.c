@@ -22,7 +22,7 @@ void sacodeHeap(ponto heap[], int ts[], int pos, int tam){
 }
 
 /* Sobe um elemento na heap (necessário após diminuir prioridade) */
-void sobeHeap(ponto heap[], int ts[], int pos){
+void atualizaHeap(ponto heap[], int ts[], int pos){
     int i = pos;
     while (i > 1 && heap[i/2].prio > heap[i].prio){
         troca(heap, ts, i/2, i);
@@ -30,11 +30,7 @@ void sobeHeap(ponto heap[], int ts[], int pos){
     }
 }
 
-/* Reposiciona um elemento: sobe ou desce conforme necessário */
-void atualiza_pos(ponto heap[], int ts[], int pos, int tam){
-    sobeHeap(heap, ts, pos);
-    sacodeHeap(heap, ts, ts[heap[pos].index], tam);
-}
+
 
 void heap_remove(ponto heap[], int ts[], int *tam){
     troca(heap, ts, 1, (*tam));

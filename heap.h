@@ -17,5 +17,7 @@ void heapfy(ponto heap[], int ts[], int tam); //msm coisa q em cima
 void heap_remove(ponto heap[], int ts[], int *tam);
 
 int heap_checa(ponto heap[], int tamanhoHeap);
+void atualizaHeap(ponto heap[], int ts[], int pos);
+void sacodeHeap(ponto heap[], int ts[], int pos, int tam);
 
 #endif
