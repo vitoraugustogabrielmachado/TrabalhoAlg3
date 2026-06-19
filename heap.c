@@ -1,3 +1,4 @@
+// BIBLIOTECA COM FUNCOES DA HEAP
 #include <stdlib.h>
 #include "heap.h"
 
