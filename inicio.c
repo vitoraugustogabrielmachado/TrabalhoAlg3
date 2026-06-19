@@ -102,10 +102,7 @@ int main(int argc, char *argv[]){
 
     heapfy(heap, ts, tamHeap);
 
-    while (1){
-        if (heap[1].prio >= limite)
-            break;
-
+    while (heap[1].prio < limite){
         int viz_esq = heap[1].viz_esq;
         int viz_dir = heap[1].viz_dir;
 
