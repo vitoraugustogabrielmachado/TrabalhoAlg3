@@ -18,7 +18,50 @@ float altura2_triangulo(float x1, float y1, float x2, float y2, float x3, float 
     return 4 * (area * area) / (dx * dx + dy * dy);
 }
 
-double *inicializaVetor(int numero){
-    double *temp = calloc(numero + 1, sizeof(double));
-    return(temp);
+void atualiza_campo_viz(ponto heap[], int ts[]){
+    int viz_esq = heap[1].viz_esq;
+    int viz_dir = heap[1].viz_dir;
+    if (viz_esq != -1 && ts[viz_esq] != -1){
+        int idx_esq = ts[viz_esq];
+        heap[idx_esq].viz_dir = viz_dir; 
+    }
+    if (viz_dir != -1 && ts[viz_dir] != -1){
+        int idx_dir = ts[viz_dir];
+        heap[idx_dir].viz_esq = viz_esq; 
+    }
+}
+
+void atualiza_prio_viz(ponto heap[], int ts[], float vet_pontos[], int tam, char *argv[]){
+    if (heap[1].viz_esq != -1 && ts[heap[1].viz_esq] != -1){
+        int idx = ts[heap[1].viz_esq];
+        int novo_esq = heap[idx].viz_esq;
+        int novo_dir = heap[idx].viz_dir;
+        if (novo_esq != -1 && novo_dir != -1 && ts[novo_esq] != -1 && ts[novo_dir] != -1){
+            int idx_esq = ts[novo_esq];
+            int idx_dir = ts[novo_dir];
+            if (argv[1][1] == 'h')
+                heap[idx].prio = altura2_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+            else
+                heap[idx].prio = area_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index],heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+
+            atualizaHeap(heap, ts, idx);
+            sacodeHeap(heap, ts, idx, tam);
+        }
+    }
+    if (heap[1].viz_dir != -1 && ts[heap[1].viz_dir] != -1){
+        int idx = ts[heap[1].viz_dir];
+        int novo_esq = heap[idx].viz_esq;
+        int novo_dir = heap[idx].viz_dir;
+        if (novo_esq != -1 && novo_dir != -1 && ts[novo_esq] != -1 && ts[novo_dir] != -1){
+            int idx_esq = ts[novo_esq];
+            int idx_dir = ts[novo_dir];
+            if (argv[1][1] == 'h')
+                heap[idx].prio = altura2_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+            else
+                heap[idx].prio = area_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index],heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
+
+            atualizaHeap(heap, ts, idx);
+            sacodeHeap(heap, ts, idx, tam);
+        }
+    }
 }

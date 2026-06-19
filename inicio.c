@@ -6,58 +6,10 @@
 #include "util.h"
 #define INF __INT_MAX__
 
-void atualiza_campo_viz(ponto heap[], int ts[]){
-    int viz_esq = heap[1].viz_esq;
-    int viz_dir = heap[1].viz_dir;
-    if (viz_esq != -1 && ts[viz_esq] != -1){
-        int idx_esq = ts[viz_esq];
-        heap[idx_esq].viz_dir = viz_dir; 
-    }
-    if (viz_dir != -1 && ts[viz_dir] != -1){
-        int idx_dir = ts[viz_dir];
-        heap[idx_dir].viz_esq = viz_esq; 
-    }
-}
-
-void atualiza_prio_viz(ponto heap[], int ts[], float vet_pontos[], int tam, char *argv[]){
-    if (heap[1].viz_esq != -1 && ts[heap[1].viz_esq] != -1){
-        int idx = ts[heap[1].viz_esq];
-        int novo_esq = heap[idx].viz_esq;
-        int novo_dir = heap[idx].viz_dir;
-        if (novo_esq != -1 && novo_dir != -1 && ts[novo_esq] != -1 && ts[novo_dir] != -1){
-            int idx_esq = ts[novo_esq];
-            int idx_dir = ts[novo_dir];
-            if (argv[1][1] == 'h')
-                heap[idx].prio = altura2_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
-            else
-                heap[idx].prio = area_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index],heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
-
-            atualizaHeap(heap, ts, idx);
-            sacodeHeap(heap, ts, idx, tam);
-            }
-    }
-    if (heap[1].viz_dir != -1 && ts[heap[1].viz_dir] != -1){
-        int idx = ts[heap[1].viz_dir];
-        int novo_esq = heap[idx].viz_esq;
-        int novo_dir = heap[idx].viz_dir;
-        if (novo_esq != -1 && novo_dir != -1 && ts[novo_esq] != -1 && ts[novo_dir] != -1){
-            int idx_esq = ts[novo_esq];
-            int idx_dir = ts[novo_dir];
-            if (argv[1][1] == 'h')
-                heap[idx].prio = altura2_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index], heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
-            else
-                heap[idx].prio = area_triangulo(heap[idx_esq].index, vet_pontos[heap[idx_esq].index], heap[idx].index, vet_pontos[heap[idx].index],heap[idx_dir].index, vet_pontos[heap[idx_dir].index]);
-
-            atualizaHeap(heap, ts, idx);
-            sacodeHeap(heap, ts, idx, tam);
-        }
-    }
-}
-
-
 int main(int argc, char *argv[]){
     if (argc != 3 || (argv[1][1] != 'h' && argv[1][1] != 'a')){
-        fprintf(stderr, "ta errado ai amigao\n");
+        puts("Erro: parametro incorreto.");
+        puts("Forma de uso: ./inicio -a <valor> ou ./inicio -h <valor>");
         return 0;
     }
 
@@ -89,7 +41,7 @@ int main(int argc, char *argv[]){
     }
 
     int tamHeap = 0;
-    for (int i = 1; i <= num; i++){
+    for(int i = 1; i <= num; i++){
         tamHeap++;
         float prioridade;
         if (i == 1 || i == num)
@@ -103,9 +55,8 @@ int main(int argc, char *argv[]){
 
     heapfy(heap, ts, tamHeap);
 
-    while (1){
-        if (heap[1].prio >= limite)
-            break;
+    while (heap[1].prio < limite){
+
         atualiza_campo_viz(heap, ts);
         atualiza_prio_viz(heap, ts, vet_pontos, tamHeap, argv);
 

@@ -1,3 +1,4 @@
+// BIBLIOTECA COM FUNCOES DA HEAP
 #include <stdlib.h>
 #include "heap.h"
 
@@ -21,7 +22,6 @@ void sacodeHeap(ponto heap[], int ts[], int pos, int tam){
     }
 }
 
-/* Sobe um elemento na heap (necessário após diminuir prioridade) */
 void atualizaHeap(ponto heap[], int ts[], int pos){
     int i = pos;
     while (i > 1 && heap[i/2].prio > heap[i].prio){
