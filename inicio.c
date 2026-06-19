@@ -117,6 +117,7 @@ int main(int argc, char *argv[]){
         ts[idx] = -1;
     }
 
+    printf("%d\n", tamHeap);
     for (int i = 1; i <= num; i++){
         if (ts[i] != -1){
             printf("%d ", i);
