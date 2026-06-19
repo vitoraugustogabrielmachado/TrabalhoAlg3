@@ -68,3 +68,4 @@ void atualiza_prio_viz(ponto heap[], int ts[], float vet_pontos[], int tam, int 
                 heapfy(heap, ts, tam);
         }
     }
+}
