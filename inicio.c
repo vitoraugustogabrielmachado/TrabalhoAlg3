@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
-#include "arvore.h"
 #include "heap.h"
 #include "util.h"
 #define INF __INT_MAX__
