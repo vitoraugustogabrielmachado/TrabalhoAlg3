@@ -8,16 +8,16 @@ typedef struct {
     int viz_dir;
 } ponto;
 
-void heap_insere(ponto heap[], int ts[], int n); //talvez mudar e fazer com void e dentro dela fazer casting?
-
 // Heapfy, atualizando a ts
 void heapfy(ponto heap[], int ts[], int tam); //msm coisa q em cima
 
 // Remove a raiz do heap, atualizando a ts
 void heap_remove(ponto heap[], int ts[], int *tam);
 
-int heap_checa(ponto heap[], int tamanhoHeap);
+/*Sobe um elemento depois da atualizacao da prioridade dos vizinhos*/
 void atualizaHeap(ponto heap[], int ts[], int pos);
+
+/*Desce o elemento que esta na posicao errada no heap*/
 void sacodeHeap(ponto heap[], int ts[], int pos, int tam);
 
 #endif
