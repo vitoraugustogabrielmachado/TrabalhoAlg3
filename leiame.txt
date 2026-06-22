@@ -1,0 +1,65 @@
+Integrantes:
+
+Felipe Rodrigues Soares - GRR20253400
+Hugo Victor Tsuzisaki - GRR20250801
+Rian Marcos dos Santos Alves - GRR20250921
+Vitor Augusto Gabriel Machado - GRR20250266
+
+Descrição da solução:
+
+A solução foi implementada utilizando três estruturas principais:
+    - Um vetor de pontos contendo os valores da série de entrada. O índice do vetor representa a coordenada x do ponto e o valor armazenado representa a coordenada y.
+    - Um heap mínimo implementado através de um vetor de structs. Cada struct armazena:
+        - a prioridade do ponto (área ou altura²);
+        - o índice do ponto na série original;
+        - o indice do vizinho à esquerda;
+        - o indice do vizinho à direita.
+    - Uma tabela de símbolos implementada por vetor. Cada posição da tabela corresponde a um ponto da série e armazena sua posição atual dentro do heap.
+Exemplo:
+ts[1] = 5;
+significa que o ponto de índice 1 na série encontra-se na posição 5 do heap.
+A tabela de símbolos permite localizar rapidamente qualquer ponto dentro do heap, facilitando a atualização de prioridades e vizinhos após cada remoção.
+
+Funcionamento:
+
+O programa recebe dois parâmetros pela linha de comando:
+
+./programa -a <tolerancia>
+ou
+./programa -h <tolerancia>
+
+O parâmetro "-a" utiliza a área do triângulo como medida de erro, enquanto "-h" utiliza a altura do triângulo ao quadrado.
+Após a leitura dos parâmetros, o programa lê da entrada padrão a quantidade de pontos da série e seus respectivos valores.
+
+Em seguida:
+    Os vetores de pontos, heap e tabela de símbolos são inicializados.
+    A prioridade de cada ponto interno é calculada utilizando a medida de erro escolhida.
+    Os pontos extremos recebem prioridade infinita para garantir que nunca sejam removidos.
+    O heap mínimo é construído.
+    Enquanto a prioridade da raiz do heap for menor que a tolerância fornecida:
+        o ponto é removido;
+        os vizinhos são atualizados;
+        as prioridades dos vizinhos são recalculadas;
+        o heap é reorganizado.
+        a tabela de simbolos é reorganizada;
+    Ao final da execução, os pontos restantes são impressos na ordem original da série.
+
+Estruturas de dados:
+
+Estrutura utilizada no heap:
+typedef struct {
+    double prio;
+    int index;
+    int viz_esq;
+    int viz_dir;
+} ponto;
+
+Onde:
+    prio: prioridade do ponto (erro associado à sua remoção);
+    index: posição original do ponto na série;
+    viz_esq: índice do vizinho à esquerda;
+    viz_dir: índice do vizinho à direita.
+
+Observações:
+Os vetores utilizados na implementação são indexados a partir da posição 1 para simplificar as operações do heap binário.
+Os pontos inicial e final da série nunca podem ser removidos e, por isso, recebem prioridade infinita durante toda a execução do algoritmo.
