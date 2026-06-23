@@ -62,9 +62,10 @@ int main(int argc, char *argv[]){
         ts[idx] = -1;
     }
 
+    printf("%d\n", tamHeap);
     for (int i = 1; i <= num; i++){
         if (ts[i] != -1){
-            printf("%d ", i);
+            printf("%.1f ", (float)i);
             printf("%.1f\n", vet_pontos[i]);
         }
     }
